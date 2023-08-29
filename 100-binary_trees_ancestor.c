@@ -13,7 +13,7 @@ binary_tree_t *binary_trees_ancestor(const binary_tree_t *first,
 		const binary_tree_t *second)
 {
 	binary_tree_t *ancestor = NULL;
-	list_ancestors_t *ancestors_list = NULL;
+	list_ancestors_t *f_ancestors_list = NULL, *s_ancestors_list = NULL;
 
 	if (first == NULL || first->parent == NULL ||
 		second == NULL || second->parent == NULL)
@@ -21,16 +21,51 @@ binary_tree_t *binary_trees_ancestor(const binary_tree_t *first,
 		return (NULL);
 	}
 
-	ancestors_list = create_list_ancestors(first);
-	if (ancestors_list == NULL)
+	f_ancestors_list = create_list_ancestors(first);
+	s_ancestors_list = create_list_ancestors(second);
+	if (f_ancestors_list == NULL || s_ancestors_list == NULL)
 	{/* Can't create parent's list */
 		return (NULL);
 	}
-	ancestor = (binary_tree_t *)find_ancestor(second, ancestors_list);
+	ancestor = (binary_tree_t *)find_first_match(f_ancestors_list,
+			s_ancestors_list);
 
-	free_ancestors_list(&ancestors_list);	/* free memory */
+	free_ancestors_list(&f_ancestors_list);	/* free memory */
+	free_ancestors_list(&s_ancestors_list);	/* free memory */
 
 	return (ancestor);
+}
+
+/**
+ * find_first_match - finds the first mathing ancestors in a list of ancestors
+ * @list_1: first list of ancestors
+ * @list_2: second list of ancestors
+ *
+ * Return: the first matching ancestors in the two starting from index 0
+ * else NULL if not found
+ */
+binary_tree_t *find_first_match(const list_ancestors_t *list_1,
+	const list_ancestors_t *list_2)
+{
+	const list_ancestors_t *tmp = NULL;
+
+	if (list_1 == NULL || list_2 == NULL)
+	{
+		return (NULL);
+	}
+
+	for (; list_1 != NULL; list_1 = list_1->next)
+	{
+		for (tmp = list_2; tmp != NULL; tmp = tmp->next)
+		{
+			if (list_1->p == tmp->p)
+			{
+				return ((binary_tree_t *)list_1->p);
+			}
+		}
+	}
+
+	return (NULL);	/* NO MATCH FOUND */
 }
 
 /**
@@ -40,7 +75,8 @@ binary_tree_t *binary_trees_ancestor(const binary_tree_t *first,
  *
  * Return: the matching ancestor if any else NULL
  */
-const binary_tree_t *find_ancestor(const binary_tree_t *node, list_ancestors_t *head)
+const binary_tree_t *find_ancestor(const binary_tree_t *node,
+	list_ancestors_t *head)
 {
 	const binary_tree_t *ancestor = NULL;
 	list_ancestors_t *tmp = NULL;

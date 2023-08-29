@@ -66,7 +66,10 @@ binary_tree_t *binary_tree_uncle(binary_tree_t *node);
 binary_tree_t *binary_trees_ancestor(const binary_tree_t *first,
 		const binary_tree_t *second);
 list_ancestors_t *create_list_ancestors(const binary_tree_t *node);
-const binary_tree_t *find_ancestor(const binary_tree_t *node, list_ancestors_t *head);
+const binary_tree_t *find_ancestor(const binary_tree_t *node,
+	list_ancestors_t *head);
 void free_ancestors_list(list_ancestors_t **head);
+binary_tree_t *find_first_match(const list_ancestors_t *list_1,
+	const list_ancestors_t *list_2);
 
 #endif /* _BINARY_TREES_H_ */
