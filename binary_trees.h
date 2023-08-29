@@ -28,7 +28,7 @@ struct binary_tree_s
  */
 typedef struct list_ancestors_s
 {
-	struct binary_tree_s *p;
+	const struct binary_tree_s *p;
 	struct list_ancestors_s *next;
 } list_ancestors_t;
 
@@ -65,9 +65,8 @@ binary_tree_t *binary_tree_sibling(binary_tree_t *node);
 binary_tree_t *binary_tree_uncle(binary_tree_t *node);
 binary_tree_t *binary_trees_ancestor(const binary_tree_t *first,
 		const binary_tree_t *second);
-list_ancestors_t *create_list_ancestors(binary_tree_t *tree);
-list_ancestors_t *create_list_ancestors(binary_tree_t *node);
-binary_tree_t *find_ancestor(binary_tree_t *node, list_ancestors_t *head);
+list_ancestors_t *create_list_ancestors(const binary_tree_t *node);
+const binary_tree_t *find_ancestor(const binary_tree_t *node, list_ancestors_t *head);
 void free_ancestors_list(list_ancestors_t **head);
 
 #endif /* _BINARY_TREES_H_ */

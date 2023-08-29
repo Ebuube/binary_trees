@@ -21,12 +21,12 @@ binary_tree_t *binary_trees_ancestor(const binary_tree_t *first,
 		return (NULL);
 	}
 
-	ancestors_list = create_list_ancestors((binary_tree_t *)first);
+	ancestors_list = create_list_ancestors(first);
 	if (ancestors_list == NULL)
 	{/* Can't create parent's list */
 		return (NULL);
 	}
-	ancestor = find_ancestor((binary_tree_t *)second, ancestors_list);
+	ancestor = (binary_tree_t *)find_ancestor(second, ancestors_list);
 
 	free_ancestors_list(&ancestors_list);	/* free memory */
 
@@ -40,9 +40,9 @@ binary_tree_t *binary_trees_ancestor(const binary_tree_t *first,
  *
  * Return: the matching ancestor if any else NULL
  */
-binary_tree_t *find_ancestor(binary_tree_t *node, list_ancestors_t *head)
+const binary_tree_t *find_ancestor(const binary_tree_t *node, list_ancestors_t *head)
 {
-	binary_tree_t *ancestor = NULL;
+	const binary_tree_t *ancestor = NULL;
 	list_ancestors_t *tmp = NULL;
 
 	if (head == NULL || node == NULL || node->parent == NULL)
@@ -81,7 +81,7 @@ binary_tree_t *find_ancestor(binary_tree_t *node, list_ancestors_t *head)
  *
  * Return: a pointer to the list else NULL
  */
-list_ancestors_t *create_list_ancestors(binary_tree_t *node)
+list_ancestors_t *create_list_ancestors(const binary_tree_t *node)
 {
 	list_ancestors_t *head = NULL, *tail = NULL, *tmp = NULL;
 
